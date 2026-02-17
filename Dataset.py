@@ -34,7 +34,7 @@ print(df.info())
 print("-------Statistiche Descrittive-------")
 print(df.describe())
 
-# Outliers — INDENTAZIONE CORRETTA
+# Outliers
 for col in X.columns:
     Q1 = df[col].quantile(0.25)   # Primo Quartile
     Q3 = df[col].quantile(0.75)   # Terzo Quartile
