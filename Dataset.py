@@ -69,7 +69,7 @@ plt.ylabel("Numero di osservazioni")
 plt.show()
 
 # -----------------------------------------------
-# HEATMAP DI CORRELAZIONE
+# Heatmap
 # -----------------------------------------------
 plt.figure(figsize=(8, 6))
 correlation_matrix = X.corr()
@@ -90,7 +90,7 @@ print("\n-------Matrice di Correlazione-------")
 print(correlation_matrix)
 
 # -----------------------------------------------
-# ENCODING DEL TARGET con LabelEncoder
+# Encoding del target con LabelEncoder
 # -----------------------------------------------
 le = LabelEncoder()
 
