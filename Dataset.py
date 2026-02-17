@@ -2,7 +2,7 @@ from ucimlrepo import fetch_ucirepo
 import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
-
+from sklearn.preprocessing import LabelEncoder
 # fetch dataset 
 iris = fetch_ucirepo(id=53) 
   
@@ -78,3 +78,29 @@ plt.title("Distribuzione delle classi")
 plt.xlabel("Classe")
 plt.ylabel("Numero di osservazioni")
 plt.show()
+
+# -----------------------------------------------
+# ENCODING DEL TARGET con LabelEncoder
+# -----------------------------------------------
+le = LabelEncoder()
+
+# fit_transform: apprende le classi e le converte in interi (0, 1, 2)
+y_encoded = le.fit_transform(y_flat)
+
+print("\n-------Encoding del Target-------")
+print("Classi originali →", le.classes_)
+print("Mapping:")
+for i, cls in enumerate(le.classes_):
+    print(f"  {cls} → {i}")
+
+print("\nPrime 10 etichette originali:", list(y_flat[:10]))
+print("Prime 10 etichette codificate:", list(y_encoded[:10]))
+
+# Aggiunta al dataframe
+df["target_encoded"] = y_encoded
+print("\nDataframe con target encoded (head):")
+print(df.head())
+
+# Verifica: le classi sono bilanciate anche dopo l'encoding?
+print("\nDistribuzione target_encoded:")
+print(df["target_encoded"].value_counts().sort_index())
