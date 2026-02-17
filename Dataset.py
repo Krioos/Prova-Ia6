@@ -1,14 +1,15 @@
-from ucimlrepo import fetch_ucirepo 
+from ucimlrepo import fetch_ucirepo
 import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
 from sklearn.preprocessing import LabelEncoder
-# fetch dataset 
-iris = fetch_ucirepo(id=53) 
-  
-# data (as pandas dataframes) 
-X = iris.data.features 
-y = iris.data.targets 
+
+# fetch dataset
+iris = fetch_ucirepo(id=53)
+
+# data (as pandas dataframes)
+X = iris.data.features
+y = iris.data.targets
 
 # Feature e target in un unico dataframe
 df = pd.concat([X, y], axis=1)
@@ -33,17 +34,14 @@ print(df.info())
 print("-------Statistiche Descrittive-------")
 print(df.describe())
 
-# Outliers
+# Outliers — INDENTAZIONE CORRETTA
 for col in X.columns:
-    Q1 = df[col].quantile(0.25) # Primo Quartile
-    Q3 = df[col].quantile(0.75) # Terzo Quartile
-    IQR = Q3 - Q1 # Interquartile Range
-
-    lower = Q1 - 1.5 * IQR 
+    Q1 = df[col].quantile(0.25)   # Primo Quartile
+    Q3 = df[col].quantile(0.75)   # Terzo Quartile
+    IQR = Q3 - Q1                 # Interquartile Range
+    lower = Q1 - 1.5 * IQR
     upper = Q3 + 1.5 * IQR
-
     outliers = df[(df[col] < lower) | (df[col] > upper)]
-
     print(f"\nColonna: {col}")
     print(f"Numero di outlier: {len(outliers)}")
     print(outliers[[col]])
@@ -51,33 +49,45 @@ for col in X.columns:
 # Boxplots
 plt.figure(figsize=(12, 8))
 for i, col in enumerate(X.columns, 1):
-    plt.subplot(2, 2, i)   # 2 righe, 2 colonne (per 4 feature)
+    plt.subplot(2, 2, i)
     sns.boxplot(y=df[col])
     plt.title(col)
-
 plt.tight_layout()
 plt.show()
 
 # Conteggio delle classi
-print("Distribuzione delle classi:")
-print(y.value_counts())
-
 y_flat = y.iloc[:, 0]
-
-# Ora y_flat è 1D e funziona con pandas e seaborn
 print("Conteggio delle classi:")
 print(y_flat.value_counts())
 
-# Grafico
-import matplotlib.pyplot as plt
-import seaborn as sns
-
-plt.figure(figsize=(6,4))
+# Grafico distribuzione classi
+plt.figure(figsize=(6, 4))
 sns.countplot(x=y_flat)
 plt.title("Distribuzione delle classi")
 plt.xlabel("Classe")
 plt.ylabel("Numero di osservazioni")
 plt.show()
+
+# -----------------------------------------------
+# HEATMAP DI CORRELAZIONE
+# -----------------------------------------------
+plt.figure(figsize=(8, 6))
+correlation_matrix = X.corr()
+sns.heatmap(
+    correlation_matrix,
+    annot=True,          # mostra i valori numerici
+    fmt=".2f",           # 2 decimali
+    cmap="coolwarm",     # colori: blu=correlazione negativa, rosso=positiva
+    vmin=-1, vmax=1,     # scala fissa da -1 a 1
+    linewidths=0.5,      # separatori tra celle
+    square=True          # celle quadrate
+)
+plt.title("Heatmap di Correlazione - Iris Features")
+plt.tight_layout()
+plt.show()
+
+print("\n-------Matrice di Correlazione-------")
+print(correlation_matrix)
 
 # -----------------------------------------------
 # ENCODING DEL TARGET con LabelEncoder
