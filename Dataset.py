@@ -3,9 +3,6 @@ import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
 
-
-print(le.classes_)   # vedere la mappatura
-print(y_encoded[:10])
 # fetch dataset 
 iris = fetch_ucirepo(id=53) 
   
