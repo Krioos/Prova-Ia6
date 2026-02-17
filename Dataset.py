@@ -58,4 +58,23 @@ for i, col in enumerate(X.columns, 1):
 plt.tight_layout()
 plt.show()
 
-print(df["class"])
+# Conteggio delle classi
+print("Distribuzione delle classi:")
+print(y.value_counts())
+
+y_flat = y.iloc[:, 0]
+
+# Ora y_flat è 1D e funziona con pandas e seaborn
+print("Conteggio delle classi:")
+print(y_flat.value_counts())
+
+# Grafico
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+plt.figure(figsize=(6,4))
+sns.countplot(x=y_flat)
+plt.title("Distribuzione delle classi")
+plt.xlabel("Classe")
+plt.ylabel("Numero di osservazioni")
+plt.show()
